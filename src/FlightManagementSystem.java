@@ -11,9 +11,10 @@ import java.util.ArrayList;
  */
 
 public class FlightManagementSystem {
-    ArrayList<Airline> airlines;
-    ArrayList<Flight> flights;
-    ArrayList<Passenger> passengers;
+    private final ArrayList<Airline> airlines;
+    private final ArrayList<Flight> flights;
+    private final ArrayList<Passenger> passengers;
+    private final ArrayList<AirlineWorker> airlineWorkers;
 
     /**
      * This is the constructor for the FlightManagementSystem class.
@@ -25,11 +26,12 @@ public class FlightManagementSystem {
         airlines = new ArrayList<Airline>();
         flights = new ArrayList<Flight>();
         passengers = new ArrayList<Passenger>();
+        airlineWorkers = new ArrayList<AirlineWorker>();
     }
 
     /**
      * This method will create a new Airline object with the given parameters.
-     * @param airlineName
+     * @param airlineName the name of the airline
      * @return Airline
      */
 
@@ -49,11 +51,11 @@ public class FlightManagementSystem {
 
     /**
      * This method will create a new Flight object with the given parameters.
-     * @param flightNumber
-     * @param airline
-     * @param departureTime
-     * @param arrivalTime
-     * @param ticketPrice
+     * @param flightNumber the flight number
+     * @param airline the airline of the flight
+     * @param departureTime the departure time
+     * @param arrivalTime the arrival time
+     * @param ticketPrice the ticket price
      * @return Flight
      */
     public Flight createFlight(int flightNumber, Airline airline, int departureTime, int arrivalTime, int ticketPrice) {
@@ -76,7 +78,7 @@ public class FlightManagementSystem {
 
     /**
      * This method will create a new Passenger object with the given parameters.
-     * @param passengerName
+     * @param passengerName the name of the passenger
      * @return Passenger
      */
 
@@ -85,7 +87,8 @@ public class FlightManagementSystem {
             return null;
         }
         for (Passenger passenger : passengers) {
-            if (passenger.getName().equals(passengerName)) {
+            if (passenger.getID() == id) {
+                System.out.println("Passenger already exists");
                 return null;
             }
         }
@@ -96,8 +99,8 @@ public class FlightManagementSystem {
 
     /**
      * This method will add a Passenger to a Flight.
-     * @param passenger
-     * @param flight
+     * @param passenger the passenger to be added
+     * @param flight the flight to be added to
      */
     public void addPassengerToFlight(Passenger passenger, Flight flight) {
         if (passenger == null || flight == null) {
@@ -113,6 +116,21 @@ public class FlightManagementSystem {
             return;
         }
         flight.removePassenger(passenger);
+    }
+
+    public AirlineWorker createAirlineWorker(String name, int id, Airline airline) {
+        if(name == null || name.isEmpty() || id <= 0 || airline == null) {
+            return null;
+        }
+        for(AirlineWorker airlineWorker : airlineWorkers) {
+            if(airlineWorker.getID()==id) {
+                System.out.println("Airline Worker already exists");
+                return null;
+            }
+        }
+        AirlineWorker airlineWorker = new AirlineWorker(name, id, airline);
+        airlineWorkers.add(airlineWorker);
+        return airlineWorker;
     }
 
 

@@ -1,20 +1,20 @@
 import java.util.ArrayList;
 
-public class Passenger extends People {
+public class Passenger extends Person {
 
-    private ArrayList<Notification> notifications ;
-    private ArrayList<Flight> flights;
+
+    private final ArrayList<Flight> flights;
 
     /**
      * This is the constructor for the Passenger class.
      * It will create a new Passenger object with the given parameters.
-     * @param name
+     * @param name the name of the passenger
+     * @param id the id of the passenger
      */
 
     public Passenger(String name, int id) {
         super(name,id);
-        this.notifications = new ArrayList<Notification>();
-        this.flights = new ArrayList<Flight>();
+        this.flights = new ArrayList<>();
     }
 
 
@@ -25,10 +25,8 @@ public class Passenger extends People {
         }
     }
     public void removeFromFlight(Flight flight) {
-        if (flights.contains(flight)) {
             flights.remove(flight);
-            flight.removePassenger(this);
-        }
+
     }
 
     /**
@@ -39,16 +37,7 @@ public class Passenger extends People {
         return super.getName();
     }
 
-    /**
-     * This method will add a notification to the passenger.
-     * it implements the Observer design pattern.
-     * in this case the observer is the passenger and the subject is the flight.
-     * @param notification
-     */
-    public void receiveNotification(Notification notification) {
-        if (!notifications.contains(notification)) {
-            notifications.add(notification);
-        }
-    }
+
+
 
 }

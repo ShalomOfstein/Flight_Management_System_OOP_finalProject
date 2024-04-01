@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class Airline implements AirlineInterface {
     private final String name;
-    private ArrayList<Flight> flights;
-    private ArrayList<Airline> subAirlines;
+    private final ArrayList<Flight> flights;
+    private final ArrayList<Airline> subAirlines;
+    private final ArrayList<AirlineWorker> airlineWorkers;
 
 
 
@@ -19,23 +20,28 @@ public class Airline implements AirlineInterface {
 
     public Airline(String newName) {
         this.name = newName;
-        this.flights = new ArrayList<Flight>();
-        this.subAirlines = new ArrayList<Airline>();
+        this.flights = new ArrayList<>();
+        this.subAirlines = new ArrayList<>();
+        this.airlineWorkers = new ArrayList<>();
     }
 
     /**
      * This method will add a flight to the airline.
-     * @param flight
+     * @param flight the flight to be added
      */
     public void addFlight(Flight flight) {
         if (!flights.contains(flight)) {
             flights.add(flight);
         }
     }
+    public void cancelFlight(Flight flight) {
+       flights.remove(flight);
+    }
+
 
     /**
      * This method will add a subAirline to the airline.
-     * @param subAirline
+     * @param subAirline the Airline to be added as a sub-Division of the airline
      */
     public void addSubAirline(Airline subAirline) {
         if (!subAirlines.contains(subAirline)) {
@@ -48,7 +54,14 @@ public class Airline implements AirlineInterface {
         return name;
     }
 
-
+    public void addAirlineWorker(AirlineWorker airlineWorker) {
+        if (!airlineWorkers.contains(airlineWorker)) {
+            airlineWorkers.add(airlineWorker);
+        }
+    }
+    public void removeAirlineWorker(AirlineWorker airlineWorker) {
+            airlineWorkers.remove(airlineWorker);
+    }
 
 
     /**
