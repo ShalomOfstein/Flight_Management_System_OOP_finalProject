@@ -35,7 +35,23 @@ public class Flight implements AirlineInterface{
     public void addPassenger(Passenger Passenger) {
         if(!passengers.contains(Passenger)) {
             passengers.add(Passenger);
+            Passenger.BookFlight(this);
         }
+    }
+
+    public void removePassenger(Passenger Passenger) {
+        if(passengers.contains(Passenger)) {
+            passengers.remove(Passenger);
+            Passenger.removeFromFlight(this);
+        }
+    }
+
+    /**
+     * This method will return the flight number.
+     * @return int
+     */
+    public int getFlightNumber() {
+        return FlightNumber;
     }
 
 
@@ -54,4 +70,9 @@ public class Flight implements AirlineInterface{
     public int ProfitsFromTickets() {
         return passengers.size() * TicketPrice;
     }
+
+//    @Override
+//    public String getAirlineName() {
+//        return Airline.getAirlineName();
+//    }
 }

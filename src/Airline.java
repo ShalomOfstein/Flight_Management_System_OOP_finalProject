@@ -6,17 +6,19 @@ import java.util.ArrayList;
  */
 
 public class Airline implements AirlineInterface {
-    private String name;
+    private final String name;
     private ArrayList<Flight> flights;
     private ArrayList<Airline> subAirlines;
+
+
 
     /**
      * This is the constructor for the Airline class.
      * to create a new Airline object with the given parameters.
      */
 
-    public Airline(String name) {
-        this.name = name;
+    public Airline(String newName) {
+        this.name = newName;
         this.flights = new ArrayList<Flight>();
         this.subAirlines = new ArrayList<Airline>();
     }
@@ -39,6 +41,11 @@ public class Airline implements AirlineInterface {
         if (!subAirlines.contains(subAirline)) {
             subAirlines.add(subAirline);
         }
+    }
+
+
+    public String getName() {
+        return name;
     }
 
 
@@ -98,4 +105,9 @@ public class Airline implements AirlineInterface {
         }
         return profitsFromFlights + profitsFromSubAirlines;
     }
+
+//    @Override
+//    public String getAirlineName() {
+//        return name;
+//    }
 }
