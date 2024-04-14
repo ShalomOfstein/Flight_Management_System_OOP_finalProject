@@ -1,19 +1,21 @@
 public class Notification {
-    protected final Person receiver;
+    protected final Observer receiver;
     protected final Airline sender;
     protected final String message;
 
-    public Notification(Person receiver, Airline sender, String message) {
+    public Notification(Observer receiver, Airline sender, String message) {
         this.receiver = receiver;
         this.sender = sender;
         this.message = message;
     }
 
+
     public void sendNotification(){
-        receiver.receiveNotification(this);
+        receiver.update(this);
     }
     public void printNotification(){
-        System.out.println("Notification for " + receiver.getName() + " from " + sender.getName() + ": " + "\""+message+"\"");
+        Person receiver1 = (Person) this.receiver;
+        System.out.println("Notification for " + receiver1.getName() + " from " + sender.getName() + ": " + "\""+message+"\"");
     }
 }
 

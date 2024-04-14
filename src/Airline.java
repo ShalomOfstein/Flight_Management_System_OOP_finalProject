@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * to represent the hierarchy of airlines.
  */
 
-public class Airline implements AirlineInterface {
+public class Airline implements AirlineInterface, Subject {
     private final String name;
     private final ArrayList<Flight> flights;
     private final ArrayList<Airline> subAirlines;
@@ -47,6 +47,7 @@ public class Airline implements AirlineInterface {
         if (!subAirlines.contains(subAirline)) {
             subAirlines.add(subAirline);
         }
+
     }
 
 
@@ -119,8 +120,36 @@ public class Airline implements AirlineInterface {
         return profitsFromFlights + profitsFromSubAirlines;
     }
 
-//    @Override
-//    public String getAirlineName() {
-//        return name;
-//    }
+    @Override
+    public void registerObserver(Observer observer) {
+        for(Flight flight : flights) {
+            flight.registerObserver(observer);
+        }
+        for(Airline subAirline : subAirlines) {
+            subAirline.registerObserver(observer);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        for(Flight flight : flights) {
+            flight.removeObserver(observer);
+        }
+        for(Airline subAirline : subAirlines) {
+            subAirline.removeObserver(observer);
+        }
+
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for(Flight flight : flights) {
+            flight.notifyObservers(message);
+        }
+        for(Airline subAirline : subAirlines) {
+            subAirline.notifyObservers(message);
+        }
+    }
+
+
 }

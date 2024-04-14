@@ -39,8 +39,9 @@ public abstract class Person implements Observer{
      */
 
     @Override
-    public void receiveNotification(Notification notification) {
-            notifications.add(notification);
+    public void update(Notification notification) {
+
+        notifications.add(notification);
     }
 
     public ArrayList<Notification> getNotifications() {
@@ -56,7 +57,7 @@ public abstract class Person implements Observer{
     }
 
     public void watchFlight(Flight flight) {
-        flight.addObserver(this);
+        flight.registerObserver(this);
     }
 
     public void unwatchFlight(Flight flight) {

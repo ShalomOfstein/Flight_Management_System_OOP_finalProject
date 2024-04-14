@@ -1,4 +1,6 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
 * This is the main class for the system.
@@ -58,8 +60,8 @@ public class FlightManagementSystem {
      * @param ticketPrice the ticket price
      * @return Flight
      */
-    public Flight createFlight(int flightNumber, Airline airline, int departureTime, int arrivalTime, int ticketPrice) {
-        if (flightNumber <= 0 || airline == null || departureTime < 0 || arrivalTime < 0 || ticketPrice < 0) {
+    public Flight createFlight(int flightNumber, Airline airline, LocalDateTime departureTime, LocalDateTime arrivalTime, int ticketPrice) {
+        if (flightNumber <= 0 || airline == null || departureTime.isAfter(arrivalTime) || ticketPrice < 0) {
             System.out.println("Invalid input");
             return null;
         }
@@ -133,6 +135,37 @@ public class FlightManagementSystem {
         return airlineWorker;
     }
 
+    public ArrayList<Flight> getFlights() {
+        return flights;
+    }
+
+    public void sortFlight(SortStrategy strategy) {
+        SortFlight sortFlight = new SortFlight(flights, strategy);
+        sortFlight.sort();
+    }
+
+    public void sortFlight(){
+        System.out.println("Please select a strategy to sort the flights:\n"+
+                "1. Sort by Departure Time\n"+
+                "2. Sort by Flight Length\n"+
+                "3. Sorth by Price\n");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        switch(choice) {
+            case 1:
+                sortFlight(new SortByDepartureTime());
+                break;
+            case 2:
+                sortFlight(new SortByFlightLength());
+                break;
+            case 3:
+                sortFlight(new SortByPrice());
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
 
 
 

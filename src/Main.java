@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -27,12 +28,29 @@ public class Main {
         airline1.addSubAirline(airline3);
         airline2.addSubAirline(airline4);
 
-        Flight flight1 = system.createFlight(1, airline4, 1, 2, 100);
-        Flight flight2 = system.createFlight(2, airline4, 2, 3, 200);
-        Flight flight3 = system.createFlight(3, airline4, 3, 4, 300);
-        Flight flight4 = system.createFlight(4, airline3, 4, 5, 400);
-        Flight flight5 = system.createFlight(5, airline1, 5, 6, 500);
-        Flight flight6 = system.createFlight(6, airline5, 6, 7, 600);
+        LocalDateTime departureTime1 = LocalDateTime.of(2025, 5, 1, 7, 0);
+        LocalDateTime arrivalTime1 = LocalDateTime.of(2025, 5, 1, 14, 0);
+        Flight flight1 = system.createFlight(1, airline4, departureTime1, arrivalTime1, 100);
+
+        LocalDateTime departureTime2 = LocalDateTime.of(2025, 6, 13, 6, 0);
+        LocalDateTime arrivalTime2 = LocalDateTime.of(2025, 6, 13, 7, 0);
+        Flight flight2 = system.createFlight(2, airline4, departureTime2, arrivalTime2, 200);
+
+        LocalDateTime departureTime3 = LocalDateTime.of(2025, 5, 26, 14, 0);
+        LocalDateTime arrivalTime3 = LocalDateTime.of(2025, 5, 26, 16, 0);
+        Flight flight3 = system.createFlight(3, airline4, departureTime3, arrivalTime3, 300);
+
+        LocalDateTime departureTime4 = LocalDateTime.of(2025, 5, 22, 4, 0);
+        LocalDateTime arrivalTime4 = LocalDateTime.of(2025, 5, 22, 10, 0);
+        Flight flight4 = system.createFlight(4, airline3, departureTime4, arrivalTime4, 400);
+
+        LocalDateTime departureTime5 = LocalDateTime.of(2025, 5, 4, 7, 0);
+        LocalDateTime arrivalTime5 = LocalDateTime.of(2025, 5, 4, 10, 0);
+        Flight flight5 = system.createFlight(5, airline1, departureTime5, arrivalTime5, 500);
+
+        LocalDateTime departureTime6 = LocalDateTime.of(2025, 5, 7, 7, 30);
+        LocalDateTime arrivalTime6 = LocalDateTime.of(2025, 5, 7, 11, 0);
+        Flight flight6 = system.createFlight(6, airline5, departureTime6, arrivalTime6, 600);
 
         Passenger passenger1 = system.createPassenger("Alice", 1);
         Passenger passenger2 = system.createPassenger("Bob", 2);
@@ -43,6 +61,7 @@ public class Main {
         Passenger passenger7 = system.createPassenger("Grace", 7);
         Passenger passenger8 = system.createPassenger("Hank", 8);
 
+        // when adding a passenger to a flight, the passenger will be added to the list of observers of the flight
         system.addPassengerToFlight(passenger1, flight1);
         system.addPassengerToFlight(passenger2, flight2);
         system.addPassengerToFlight(passenger3, flight3);
@@ -101,13 +120,24 @@ public class Main {
         System.out.println("Profits from tickets in airline5: " + profits5);
         System.out.println();
 
-        flight1.changeFlightTimes(8,9);
+        LocalDateTime newDepartureTime1 = LocalDateTime.of(2025, 5, 1, 9, 30);
+        LocalDateTime newArrivalTime1 = LocalDateTime.of(2025, 5, 1, 12, 0);
+        flight1.changeFlightTimes(newDepartureTime1,newArrivalTime1);
         flight2.cancelFlight();
         flight3.changeTicketPrice(350);
         flight4.changeTicketPrice(450);
-        flight5.changeFlightTimes(10,11);
-        flight6.changeFlightTimes(3,5);
-        flight3.changeFlightTimes(6,7);
+
+        LocalDateTime newDepartureTime5 = LocalDateTime.of(2025, 5, 4, 10, 0);
+        LocalDateTime newArrivalTime5 = LocalDateTime.of(2025, 5, 4, 14, 0);
+        flight5.changeFlightTimes(newDepartureTime5,newArrivalTime5);
+
+        LocalDateTime newDepartureTime6 = LocalDateTime.of(2025, 5, 7, 7, 30);
+        LocalDateTime newArrivalTime6 = LocalDateTime.of(2025, 5, 7, 11, 30);
+        flight6.changeFlightTimes(newDepartureTime6,newArrivalTime6);
+
+        LocalDateTime newDepartureTime3 = LocalDateTime.of(2025, 5, 26, 10, 0);
+        LocalDateTime newArrivalTime3 = LocalDateTime.of(2025, 5, 26, 14, 0);
+        flight3.changeFlightTimes(newDepartureTime3,newArrivalTime3);
         flight5.changeTicketPrice(550);
         flight1.changeTicketPrice(150);
         flight1.cancelFlight();
@@ -125,6 +155,13 @@ public class Main {
         passenger6.printNotifications();
         passenger7.printNotifications();
         passenger8.printNotifications();
+
+
+        // Search for a flight
+        system.sortFlight(new SortByDepartureTime());
+        system.sortFlight(new SortByFlightLength());
+        system.sortFlight(new SortByPrice());
+
 
 
 

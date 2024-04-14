@@ -1,14 +1,17 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Flight implements AirlineInterface{
+public class Flight implements AirlineInterface,Subject{
     private final int FlightNumber;
     private final Airline Airline;
-    private int DepartureTime;
-    private int ArrivalTime;
-    private int FlightLength;
+    private LocalDateTime DepartureTime;
+    private LocalDateTime ArrivalTime;
+    private double FlightLength; // Will be calculated based on DepartureTime and ArrivalTime
     private final ArrayList<Passenger> passengers;
-    private final ArrayList<Person> observers;
+    private final ArrayList<Observer> observers;
     private int TicketPrice;
     public boolean isCanceled;
 
@@ -21,12 +24,13 @@ public class Flight implements AirlineInterface{
      * @param ArrivalTime the arrival time
      * @param TicketPrice the ticket price
      */
-    public Flight(int FlightNumber, Airline Airline, int DepartureTime, int ArrivalTime, int TicketPrice) {
+    public Flight(int FlightNumber, Airline Airline, LocalDateTime DepartureTime, LocalDateTime ArrivalTime, int TicketPrice) {
         this.Airline = Airline;
         this.FlightNumber = FlightNumber;
         this.DepartureTime = DepartureTime;
         this.ArrivalTime = ArrivalTime;
-        this.FlightLength = ArrivalTime - DepartureTime;
+        this.FlightLength = (double) DepartureTime.until(ArrivalTime, ChronoUnit.HOURS);
+
         this.TicketPrice = TicketPrice;
         this.passengers = new ArrayList<>();
         this.observers = new ArrayList<>();
@@ -59,39 +63,31 @@ public class Flight implements AirlineInterface{
         int oldPrice = TicketPrice;
         TicketPrice = newPrice;
         if(newPrice!=oldPrice) {
-            String message = "The ticket price for flight number:" + FlightNumber +" has been changed from " + oldPrice + " to " +
-                    newPrice;
-            for(Person observer : observers) {
-                Notification note = new Notification( observer, Airline, message);
-                note.sendNotification();
-            }
+            String message = "The ticket price for flight number:" + FlightNumber +" has been changed from " +
+                    oldPrice + " to " + newPrice;
+            notifyObservers(message);
         }
     }
 
-    public void changeFlightTimes(int newDepartureTime, int newArrivalTime) {
-        int oldDepartureTime = DepartureTime;
-        int oldArrivalTime = ArrivalTime;
+    public void changeFlightTimes(LocalDateTime newDepartureTime, LocalDateTime newArrivalTime) {
+        LocalDateTime oldDepartureTime = DepartureTime;
+        LocalDateTime oldArrivalTime = ArrivalTime;
         DepartureTime = newDepartureTime;
         ArrivalTime = newArrivalTime;
-        FlightLength = ArrivalTime - DepartureTime;
+        FlightLength = (double) DepartureTime.until(ArrivalTime, ChronoUnit.HOURS);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String message = "The flight times for flight number: " + FlightNumber + " have been changed:\n" +
-                "    Departure time has been changed from: " + oldDepartureTime + ", to: " + newDepartureTime + "\n" +
-                "    Arrival time has been changed from: " + oldArrivalTime + ", to: " + newArrivalTime+ "\n"+
-                "    Flight length is now: " + (oldArrivalTime - oldDepartureTime);
+                "    Departure time has been changed from: " + oldDepartureTime.format(formatter) + ", to: " + newDepartureTime.format(formatter) + "\n" +
+                "    Arrival time has been changed from: " + oldArrivalTime.format(formatter) + ", to: " + newArrivalTime.format(formatter) + "\n" +
+                "    Flight length is now: " + (FlightLength) + " hours.";
 
-        for (Person observer : observers) {
-            Notification note = new Notification(observer, Airline, message);
-            note.sendNotification();
-        }
-
+        notifyObservers(message);
     }
 
     public void cancelFlight() {
-        for(Person observer : observers) {
-            String message = "Flight number: " + FlightNumber + " has been canceled.";
-            Notification note = new Notification(observer, Airline, message);
-            note.sendNotification();
-        }
+        String message = "Flight number: " + FlightNumber + " has been canceled.";
+        notifyObservers(message);
         Iterator<Passenger> iterator = passengers.iterator();
         while (iterator.hasNext()) {
             Passenger passenger = iterator.next();
@@ -102,12 +98,12 @@ public class Flight implements AirlineInterface{
         isCanceled = true;
     }
 
-    public void addObserver(Person observer) {
+    public void registerObserver(Observer observer) {
         if (!observers.contains(observer)) {
             observers.add(observer);
         }
     }
-    public void removeObserver(Person observer) {
+    public void removeObserver(Observer observer) {
         if (observers.contains(observer)){
             if(observer instanceof Passenger pass) { // cannot remove the observer if it is a passenger and is in the flight
                 if(passengers.contains(pass)) {
@@ -115,6 +111,13 @@ public class Flight implements AirlineInterface{
                 }
             }
             observers.remove(observer);
+        }
+    }
+
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            Notification notification = new Notification(observer, Airline, message);
+            observer.update(notification);
         }
     }
 
@@ -126,13 +129,39 @@ public class Flight implements AirlineInterface{
     public int getFlightNumber() {
         return FlightNumber;
     }
+    public int getTicketPrice() {
+        return TicketPrice;
+    }
+    public double getFlightLength() {
+        return FlightLength;
+    }
+    public LocalDateTime getDepartureTime() {
+        return DepartureTime;
+    }
 
-    public ArrayList<Person> getObservers() {
+    public ArrayList<Observer> getObservers() {
         return observers;
     }
 
     public ArrayList<Passenger> getPassengers() {
         return passengers;
+    }
+
+    public void displayFlightInfo() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String message = "Flight number: " + FlightNumber + "; Departure time: " + DepartureTime.format(formatter) + "; Arrival time: " +
+                ArrivalTime.format(formatter) + "; Ticket price: " + TicketPrice + "; Flight length: " + FlightLength;
+        System.out.println(message);
+    }
+
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return "---------------------------------------------------------"+
+                "\n-> Flight number: " + FlightNumber +
+                "\nDeparture time: " + DepartureTime.format(formatter) +
+                "\nArrival time: " + ArrivalTime.format(formatter) +
+                "\nTicket price: " + TicketPrice +
+                "\nFlight length: " + FlightLength;
     }
 
     /**
@@ -156,8 +185,5 @@ public class Flight implements AirlineInterface{
         return passengers.size() * TicketPrice;
     }
 
-//    @Override
-//    public String getAirlineName() {
-//        return Airline.getAirlineName();
-//    }
+
 }

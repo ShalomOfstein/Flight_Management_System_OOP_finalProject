@@ -1,3 +1,3 @@
 public interface Observer {
-    void receiveNotification(Notification notification);
+    void update(Notification notification);
 }
