@@ -206,7 +206,7 @@ public class FlightManagementSystem {
                 break;
             case 2:
                 System.out.println("Enter the Flight Length: ");
-                double flightLength = scanner.nextInt();
+                double flightLength = scanner.nextDouble();
                 if(flightLength <= 0) {
                     System.out.println("Invalid input");
                     return;
@@ -226,6 +226,78 @@ public class FlightManagementSystem {
                 System.out.println("Invalid choice");
         }
     }
+
+    public Flight getFlight(int flightNumber) {
+        for (Flight flight : flights) {
+            if (flight.getFlightNumber() == flightNumber) {
+                return flight;
+            }
+        }
+        return null;
+    }
+    public Airline getAirline(String airlineName) {
+        for(Airline airline : airlines) {
+            if(airline.getName().equals(airlineName)) {
+                return airline;
+            }
+        }
+        return null;
+    }
+    public Passenger getPassenger(int id) {
+        for(Passenger passenger : passengers) {
+            if(passenger.getID() == id) {
+                return passenger;
+            }
+        }
+        return null;
+    }
+    public AirlineWorker getAirlineWorker(int id) {
+        for(AirlineWorker airlineWorker : airlineWorkers) {
+            if(airlineWorker.getID() == id) {
+                return airlineWorker;
+            }
+        }
+        return null;
+    }
+    public Passenger getPassenger(String name) {
+        for(Passenger passenger : passengers) {
+            if(passenger.getName().equals(name)) {
+                return passenger;
+            }
+        }
+        return null;
+    }
+    public AirlineWorker getAirlineWorker(String name) {
+        for(AirlineWorker airlineWorker : airlineWorkers) {
+            if(airlineWorker.getName().equals(name)) {
+                return airlineWorker;
+            }
+        }
+        return null;
+    }
+
+    public void printPassengers(){
+        for(Passenger passenger : passengers) {
+            System.out.println(passenger);
+        }
+    }
+    public void printAirlineWorkers(){
+        for(AirlineWorker airlineWorker : airlineWorkers) {
+            System.out.println(airlineWorker);
+        }
+    }
+    public void printNotifications(){
+        for(AirlineWorker airlineWorker : airlineWorkers) {
+            airlineWorker.printNotifications();
+        }
+        for(Passenger passenger : passengers) {
+            passenger.printNotifications();
+        }
+    }
+
+
+
+
 
 
 

@@ -104,7 +104,7 @@ public class Flight implements AirlineInterface, Subject {
             String message = "The flight times for flight number: " + FlightNumber + " have been changed:\n" +
                     "    Departure time has been changed from: " + oldDepartureTime.format(formatter) + ", to: " + newDepartureTime.format(formatter) + "\n" +
                     "    Arrival time has been changed from: " + oldArrivalTime.format(formatter) + ", to: " + newArrivalTime.format(formatter) + "\n" +
-                    "    Flight_Management_System.Composite.Flight length is now: " + (FlightLength) + " hours.";
+                    "    Flight length is now: " + (FlightLength) + " hours.";
 
             notifyObservers(message);
         }
@@ -115,7 +115,7 @@ public class Flight implements AirlineInterface, Subject {
      * and notify the observers.
      */
     public void cancelFlight() {
-        String message = "Flight_Management_System.Composite.Flight number: " + FlightNumber + " has been canceled.";
+        String message = "Flight number: " + FlightNumber + " has been canceled.";
         notifyObservers(message);
         Iterator<Passenger> iterator = passengers.iterator();
         while (iterator.hasNext()) {
@@ -199,7 +199,7 @@ public class Flight implements AirlineInterface, Subject {
                 "\nDeparture time: " + DepartureTime.format(formatter) +
                 "\nArrival time: " + ArrivalTime.format(formatter) +
                 "\nTicket price: " + TicketPrice +
-                "\nFlight_Management_System.Composite.Flight length: " + FlightLength;
+                "\nFlight length: " + FlightLength;
     }
 
     /**
