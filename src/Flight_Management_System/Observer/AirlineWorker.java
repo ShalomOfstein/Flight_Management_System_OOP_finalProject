@@ -1,4 +1,6 @@
+package Flight_Management_System.Observer;
 
+import Flight_Management_System.Composite.Airline;
 
 public class AirlineWorker extends Person{
     private static int NumberOfAirlineWorkers = 0;

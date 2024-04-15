@@ -1,3 +1,13 @@
+package Flight_Management_System;
+
+import Flight_Management_System.Composite.Airline;
+import Flight_Management_System.Composite.Flight;
+import Flight_Management_System.Observer.AirlineWorker;
+import Flight_Management_System.Observer.Passenger;
+import Flight_Management_System.Search_Strategy.*;
+import Flight_Management_System.Sort_Strategy.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -5,11 +15,11 @@ import java.util.Scanner;
 /**
 * This is the main class for the system.
 * This class will be able to:
-* -> create a new Flight
-* -> create a new Airline
-* -> create a new Passenger
-* -> add a Passenger to a Flight
-* -> search for a Flight by different criteria
+* -> create a new Flight_Management_System.Composite.Flight
+* -> create a new Flight_Management_System.Composite.Airline
+* -> create a new Flight_Management_System.Observer.Passenger
+* -> add a Flight_Management_System.Observer.Passenger to a Flight_Management_System.Composite.Flight
+* -> search for a Flight_Management_System.Composite.Flight by different criteria
  */
 
 public class FlightManagementSystem {
@@ -19,8 +29,8 @@ public class FlightManagementSystem {
     private final ArrayList<AirlineWorker> airlineWorkers;
 
     /**
-     * This is the constructor for the FlightManagementSystem class.
-     * It will create a new FlightManagementSystem object with the given parameters.
+     * This is the constructor for the Flight_Management_System.FlightManagementSystem class.
+     * It will create a new Flight_Management_System.FlightManagementSystem object with the given parameters.
      * It will initialize the airlines, flights, and passengers ArrayLists.
      */
 
@@ -32,9 +42,9 @@ public class FlightManagementSystem {
     }
 
     /**
-     * This method will create a new Airline object with the given parameters.
+     * This method will create a new Flight_Management_System.Composite.Airline object with the given parameters.
      * @param airlineName the name of the airline
-     * @return Airline
+     * @return Flight_Management_System.Composite.Airline
      */
 
     public Airline createAirline(String airlineName) {
@@ -52,13 +62,13 @@ public class FlightManagementSystem {
     }
 
     /**
-     * This method will create a new Flight object with the given parameters.
+     * This method will create a new Flight_Management_System.Composite.Flight object with the given parameters.
      * @param flightNumber the flight number
      * @param airline the airline of the flight
      * @param departureTime the departure time
      * @param arrivalTime the arrival time
      * @param ticketPrice the ticket price
-     * @return Flight
+     * @return Flight_Management_System.Composite.Flight
      */
     public Flight createFlight(int flightNumber, Airline airline, LocalDateTime departureTime, LocalDateTime arrivalTime, int ticketPrice) {
         if (flightNumber <= 0 || airline == null || departureTime.isAfter(arrivalTime) || ticketPrice < 0) {
@@ -67,7 +77,7 @@ public class FlightManagementSystem {
         }
         for (Flight flight : flights) {
             if (flight.getFlightNumber() == flightNumber) {
-                System.out.println("Flight already exists");
+                System.out.println("Flight_Management_System.Composite.Flight already exists");
                 return null;
             }
         }
@@ -79,9 +89,9 @@ public class FlightManagementSystem {
 
 
     /**
-     * This method will create a new Passenger object with the given parameters.
+     * This method will create a new Flight_Management_System.Observer.Passenger object with the given parameters.
      * @param passengerName the name of the passenger
-     * @return Passenger
+     * @return Flight_Management_System.Observer.Passenger
      */
 
     public Passenger createPassenger(String passengerName,int id) {
@@ -90,7 +100,7 @@ public class FlightManagementSystem {
         }
         for (Passenger passenger : passengers) {
             if (passenger.getID() == id) {
-                System.out.println("Passenger already exists");
+                System.out.println("Flight_Management_System.Observer.Passenger already exists");
                 return null;
             }
         }
@@ -100,7 +110,7 @@ public class FlightManagementSystem {
     }
 
     /**
-     * This method will add a Passenger to a Flight.
+     * This method will add a Flight_Management_System.Observer.Passenger to a Flight_Management_System.Composite.Flight.
      * @param passenger the passenger to be added
      * @param flight the flight to be added to
      */
@@ -126,7 +136,7 @@ public class FlightManagementSystem {
         }
         for(AirlineWorker airlineWorker : airlineWorkers) {
             if(airlineWorker.getID()==id) {
-                System.out.println("Airline Worker already exists");
+                System.out.println("Flight_Management_System.Composite.Airline Worker already exists");
                 return null;
             }
         }
@@ -148,7 +158,8 @@ public class FlightManagementSystem {
         System.out.println("Please select a strategy to sort the flights:\n"+
                 "1. Sort by Departure Time\n"+
                 "2. Sort by Flight Length\n"+
-                "3. Sorth by Price\n");
+                "3. Sort by Price\n"+
+                "Enter your choice: ");
 
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -166,6 +177,56 @@ public class FlightManagementSystem {
                 System.out.println("Invalid choice");
         }
     }
+
+    public void searchFlight(SearchStrategy strategy) {
+        SearchFlight searchFlight = new SearchFlight(flights, strategy);
+        searchFlight.search();
+    }
+
+    public void searchFlight(){
+        System.out.println("Please select a strategy to search the flights:\n"+
+                "1. Search for a specific Departure Date\n"+
+                "2. Search for a specific Flight Length\n"+
+                "3. Search for a specific Price\n"+
+                "Enter your choice: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        switch(choice) {
+            case 1:
+                System.out.println("Enter the Departure Date (YYYY-MM-DD): ");
+                LocalDate departureDate = null;
+                String userInput = scanner.next();
+                try {
+                    departureDate = LocalDate.parse(userInput);
+                } catch (Exception e) {
+                    System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+                }
+                searchFlight(new SearchByDepartureDate(departureDate));
+                break;
+            case 2:
+                System.out.println("Enter the Flight Length: ");
+                double flightLength = scanner.nextInt();
+                if(flightLength <= 0) {
+                    System.out.println("Invalid input");
+                    return;
+                }
+                searchFlight(new SearchByFlightLength(flightLength));
+                break;
+            case 3:
+                System.out.println("Enter the Price: ");
+                int price = scanner.nextInt();
+                if(price < 0) {
+                    System.out.println("Invalid input");
+                    return;
+                }
+                searchFlight(new SearchByPrice(price));
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
+
 
 
 

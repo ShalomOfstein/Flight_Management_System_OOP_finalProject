@@ -1,5 +1,14 @@
+import Flight_Management_System.*;
+
 import java.time.LocalDateTime;
-import java.util.Scanner;
+
+import Flight_Management_System.Composite.Airline;
+import Flight_Management_System.Composite.Flight;
+import Flight_Management_System.Observer.AirlineWorker;
+import Flight_Management_System.Observer.Passenger;
+import Flight_Management_System.Sort_Strategy.SortByDepartureTime;
+import Flight_Management_System.Sort_Strategy.SortByFlightLength;
+import Flight_Management_System.Sort_Strategy.SortByPrice;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -16,8 +25,11 @@ public class Main {
          *
          *
          */
-
+        System.out.println("This is the Flight Management System.\n"+
+                "The system is designed to manage airlines, flights, passengers, and airline workers.\n"+
+                "Creating the system...");
         FlightManagementSystem system = new FlightManagementSystem();
+
         Airline airline1 = system.createAirline("Airline1");
         Airline airline2 = system.createAirline("Airline2");
         Airline airline3 = system.createAirline("Airline3");
@@ -161,6 +173,7 @@ public class Main {
         system.sortFlight(new SortByDepartureTime());
         system.sortFlight(new SortByFlightLength());
         system.sortFlight(new SortByPrice());
+        system.searchFlight();
 
 
 
@@ -172,11 +185,11 @@ public class Main {
 
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.println("creating the system...");
-//        FlightManagementSystem system = new FlightManagementSystem();
+//        Flight_Management_System.FlightManagementSystem system = new Flight_Management_System.FlightManagementSystem();
 //
 //        System.out.println("Create a new airline:\nEnter the name of the airline:");
 //        String airlineName = scanner.nextLine();
-//        Airline airline = system.createAirline(airlineName);
+//        Flight_Management_System.Composite.Airline airline = system.createAirline(airlineName);
 //
 //        System.out.println("Create a new flight:\nEnter the flight number:");
 //        int flightNumber = scanner.nextInt();
@@ -186,13 +199,13 @@ public class Main {
 //        int arrivalTime = scanner.nextInt();
 //        System.out.println("Enter the ticket price:");
 //        int ticketPrice = scanner.nextInt();
-//        Flight flight = system.createFlight(flightNumber, airline, departureTime, arrivalTime, ticketPrice);
+//        Flight_Management_System.Composite.Flight flight = system.createFlight(flightNumber, airline, departureTime, arrivalTime, ticketPrice);
 //
 //        System.out.println("Create a new passenger:\nEnter the name of the passenger:");
 //        String passengerName = scanner.nextLine();
 //        System.out.println("Enter the ID number of the passenger:");
 //        int id = scanner.nextInt();
-//        Passenger passenger = system.createPassenger(passengerName, id);
+//        Flight_Management_System.Observer.Passenger passenger = system.createPassenger(passengerName, id);
 //
 //        System.out.println("Add the passenger to the flight:");
 //        system.addPassengerToFlight(passenger, flight);
@@ -200,7 +213,7 @@ public class Main {
 //        System.out.println("Search for a flight:\nEnter the flight number:");
 //        int searchFlightNumber = scanner.nextInt();
 //
-////        Flight searchFlight = system.searchFlight(searchFlightNumber);
+////        Flight_Management_System.Composite.Flight searchFlight = system.searchFlight(searchFlightNumber);
 //
 //        System.out.println("");
 

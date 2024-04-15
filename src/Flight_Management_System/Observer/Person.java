@@ -1,3 +1,7 @@
+package Flight_Management_System.Observer;
+
+import Flight_Management_System.Composite.Flight;
+
 import java.util.ArrayList;
 
 public abstract class Person implements Observer{
@@ -33,7 +37,7 @@ public abstract class Person implements Observer{
 
     /**
      * This method will add a notification to the person.
-     * it implements the Observer design pattern.
+     * it implements the Flight_Management_System.Observer.Observer design pattern.
      * in this case the observer is the person and the subject is the flight.
      * @param notification the notification to be added
      */

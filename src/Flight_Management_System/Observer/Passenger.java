@@ -1,3 +1,7 @@
+package Flight_Management_System.Observer;
+
+import Flight_Management_System.Composite.Flight;
+
 import java.util.ArrayList;
 
 public class Passenger extends Person {
@@ -6,8 +10,8 @@ public class Passenger extends Person {
     private final ArrayList<Flight> flights;
 
     /**
-     * This is the constructor for the Passenger class.
-     * It will create a new Passenger object with the given parameters.
+     * This is the constructor for the Flight_Management_System.Observer.Passenger class.
+     * It will create a new Flight_Management_System.Observer.Passenger object with the given parameters.
      * @param name the name of the passenger
      * @param id the id of the passenger
      */

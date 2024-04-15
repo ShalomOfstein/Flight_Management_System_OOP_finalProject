@@ -1,15 +1,24 @@
+package Flight_Management_System.Composite;
+
+import Flight_Management_System.Observer.AirlineWorker;
+import Flight_Management_System.Observer.Observer;
+import Flight_Management_System.Observer.Subject;
+
 import java.util.ArrayList;
 /**
  * This class represents an airline.
- * it will implement the Composite design pattern
- * to represent the hierarchy of airlines.
+ * it will implement the Composite design pattern to represent the hierarchy of airlines.
+ * the airline class does so by implementing the AirlineInterface to provide the methods for the composite design pattern.
+ * it will also implement the Subject interface to provide the methods for the observer design pattern.
+ * if an Observer is added to an airline, it will be added as an Observer to all the flights and subAirlines of that airline.
+ * so the Subject interface methods are also implemented in a composite way.
  */
 
 public class Airline implements AirlineInterface, Subject {
-    private final String name;
-    private final ArrayList<Flight> flights;
-    private final ArrayList<Airline> subAirlines;
-    private final ArrayList<AirlineWorker> airlineWorkers;
+    private final String name; // the name of the airline
+    private final ArrayList<Flight> flights; // the flights of the airline
+    private final ArrayList<Airline> subAirlines; // the subAirlines of the airline
+    private final ArrayList<AirlineWorker> airlineWorkers; // the airline workers of the airline
 
 
 
@@ -34,6 +43,11 @@ public class Airline implements AirlineInterface, Subject {
             flights.add(flight);
         }
     }
+
+    /**
+     * This method will cancel a flight from the airline.
+     * @param flight the flight to be canceled
+     */
     public void cancelFlight(Flight flight) {
        flights.remove(flight);
     }
@@ -41,7 +55,7 @@ public class Airline implements AirlineInterface, Subject {
 
     /**
      * This method will add a subAirline to the airline.
-     * @param subAirline the Airline to be added as a sub-Division of the airline
+     * @param subAirline the Flight_Management_System.Composite.Airline to be added as a sub-Division of the airline
      */
     public void addSubAirline(Airline subAirline) {
         if (!subAirlines.contains(subAirline)) {
@@ -50,23 +64,35 @@ public class Airline implements AirlineInterface, Subject {
 
     }
 
-
+    /**
+     * this method will return the name of the airline
+     * @return the Airline name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * this method will add a new airline worker to the airline
+     * @param airlineWorker the new worker to be added
+     */
     public void addAirlineWorker(AirlineWorker airlineWorker) {
         if (!airlineWorkers.contains(airlineWorker)) {
             airlineWorkers.add(airlineWorker);
         }
     }
+
+    /**
+     * This method will remove an airline worker from the airline.
+     * @param airlineWorker the worker to be removed
+     */
     public void removeAirlineWorker(AirlineWorker airlineWorker) {
             airlineWorkers.remove(airlineWorker);
     }
 
 
     /**
-     * These are the methods for the Airline Interface.
+     * These are the methods for the Flight_Management_System.Composite.Airline Interface.
      * They will be implemented in this class.
      * -> NumberOfFlights
      *      This method will return the number of flights in the airline. using the composite design pattern
@@ -120,6 +146,17 @@ public class Airline implements AirlineInterface, Subject {
         return profitsFromFlights + profitsFromSubAirlines;
     }
 
+    /**
+     * These are the methods for the Subject Interface.
+     * They will be implemented in this class.
+     * -> registerObserver
+     *      This method will register an observer to the airline.
+     * -> removeObserver
+     *     This method will remove an observer from the airline.
+     * -> notifyObservers
+     *    This method will notify all the observers of the airline.
+     *
+     */
     @Override
     public void registerObserver(Observer observer) {
         for(Flight flight : flights) {
