@@ -1,6 +1,6 @@
 import Flight_Management_System.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -28,9 +28,11 @@ public class Main {
          *
          *
          */
-        System.out.println("This is the Flight Management System.\n"+
-                "The system is designed to manage airlines, flights, passengers, and airline workers.\n"+
-                "Creating the system...");
+        System.out.println("""
+                This is the Flight Management System.
+                The system is designed to manage airlines, flights, passengers, and airline workers.
+                Creating the system...
+                """);
         FlightManagementSystem system = new FlightManagementSystem();
         System.out.println("The system has been created.\n");
         System.out.println("""
@@ -44,7 +46,7 @@ public class Main {
             System.out.println("Loading the system with automatic data...");
             loadAutomaticData(system);
             System.out.println("""
-                The system has been loaded with the following automatic data.\n
+                The system has been loaded with the following automatic data.
                                           Airline1               Airline5
                                       /       |     \\                |
                               Airline2    Airline3   flight5         flight6
@@ -73,7 +75,7 @@ public class Main {
                         1. Add an airline, flight, passenger, or airline worker
                         2. Make changes to a flight, passenger, or airline worker
                         3. Search for a flight
-                        4. Print a list of sorted flights 
+                        4. Print a list of sorted flights
                         5. Print info about airlines, flights, passengers, and airline workers
                         0. Exit
                         Please enter your choice:
@@ -111,10 +113,12 @@ public class Main {
                     system.searchFlight();
                 }
                 case 4 -> {
-                    System.out.println("Please select a strategy to sort the flights:\n"+
-                            "1. Sort by Departure Time\n"+
-                            "2. Sort by Flight Length\n"+
-                            "3. Sort by Price\n");
+                    System.out.println("""
+                            Please select a strategy to sort the flights:
+                            1. Sort by Departure Time
+                            2. Sort by Flight Length
+                            3. Sort by Price
+                            """);
                     int choice = scanner.nextInt();
                     switch (choice) {
                         case 1 -> system.sortFlight(new SortByDepartureTime());
@@ -124,12 +128,15 @@ public class Main {
                     }
                 }
                 case 5 -> {
-                    System.out.println("Printing info menu:\n" +
-                            "1. Print profits from airline\\flight \n" +
-                            "2. Print number of flights in airline\n" +
-                            "3. Print number of passengers in a flight or an airline\n" +
-                            "4. Print all the notifications a person has received \n" +
-                            "Please enter your choice:");
+                    System.out.println("""
+                            Printing info menu:
+                            1. Print profits from airline\\flight
+                            2. Print number of flights in airline
+                            3. Print number of passengers in a flight or an airline
+                            4. Print all the notifications a person has received
+                            5. Print all the notifications everyone has received
+                            0. Back to main menu
+                            Please enter your choice:""");
                     int infoChoice = scanner.nextInt();
                     printInfo(infoChoice, system);
                 }
@@ -140,93 +147,6 @@ public class Main {
 
 
         }
-
-
-
-
-
-
-
-//        int numberOfFlights1 = airline1.NumberOfFlights();
-//        int numberOfFlights2 = airline2.NumberOfFlights();
-//        int numberOfFlights3 = airline3.NumberOfFlights();
-//        int numberOfFlights4 = airline4.NumberOfFlights();
-//        int numberOfFlights5 = airline5.NumberOfFlights();
-//
-//        System.out.println("Number of flights in airline1: " + numberOfFlights1);
-//        System.out.println("Number of flights in airline2: " + numberOfFlights2);
-//        System.out.println("Number of flights in airline3: " + numberOfFlights3);
-//        System.out.println("Number of flights in airline4: " + numberOfFlights4);
-//        System.out.println("Number of flights in airline5: " + numberOfFlights5);
-//        System.out.println();
-//
-//        int numberOfPassengers1 = airline1.NumberOfPassengers();
-//        int numberOfPassengers2 = airline2.NumberOfPassengers();
-//        int numberOfPassengers3 = airline3.NumberOfPassengers();
-//        int numberOfPassengers4 = airline4.NumberOfPassengers();
-//        int numberOfPassengers5 = airline5.NumberOfPassengers();
-//
-//        System.out.println("Number of passengers in airline1: " + numberOfPassengers1);
-//        System.out.println("Number of passengers in airline2: " + numberOfPassengers2);
-//        System.out.println("Number of passengers in airline3: " + numberOfPassengers3);
-//        System.out.println("Number of passengers in airline4: " + numberOfPassengers4);
-//        System.out.println("Number of passengers in airline5: " + numberOfPassengers5);
-//        System.out.println();
-//        int profits1 = airline1.ProfitsFromTickets();
-//        int profits2 = airline2.ProfitsFromTickets();
-//        int profits3 = airline3.ProfitsFromTickets();
-//        int profits4 = airline4.ProfitsFromTickets();
-//        int profits5 = airline5.ProfitsFromTickets();
-//
-//        System.out.println("Profits from tickets in airline1: " + profits1);
-//        System.out.println("Profits from tickets in airline2: " + profits2);
-//        System.out.println("Profits from tickets in airline3: " + profits3);
-//        System.out.println("Profits from tickets in airline4: " + profits4);
-//        System.out.println("Profits from tickets in airline5: " + profits5);
-//        System.out.println();
-//
-//        LocalDateTime newDepartureTime1 = LocalDateTime.of(2025, 5, 1, 9, 30);
-//        LocalDateTime newArrivalTime1 = LocalDateTime.of(2025, 5, 1, 12, 0);
-//        flight1.changeFlightTimes(newDepartureTime1,newArrivalTime1);
-//        flight2.cancelFlight();
-//        flight3.changeTicketPrice(350);
-//        flight4.changeTicketPrice(450);
-//
-//        LocalDateTime newDepartureTime5 = LocalDateTime.of(2025, 5, 4, 10, 0);
-//        LocalDateTime newArrivalTime5 = LocalDateTime.of(2025, 5, 4, 14, 0);
-//        flight5.changeFlightTimes(newDepartureTime5,newArrivalTime5);
-//
-//        LocalDateTime newDepartureTime6 = LocalDateTime.of(2025, 5, 7, 7, 30);
-//        LocalDateTime newArrivalTime6 = LocalDateTime.of(2025, 5, 7, 11, 30);
-//        flight6.changeFlightTimes(newDepartureTime6,newArrivalTime6);
-//
-//        LocalDateTime newDepartureTime3 = LocalDateTime.of(2025, 5, 26, 10, 0);
-//        LocalDateTime newArrivalTime3 = LocalDateTime.of(2025, 5, 26, 14, 0);
-//        flight3.changeFlightTimes(newDepartureTime3,newArrivalTime3);
-//        flight5.changeTicketPrice(550);
-//        flight1.changeTicketPrice(150);
-//        flight1.cancelFlight();
-//
-//
-//        airlineWorker1.printNotifications();
-//        airlineWorker2.printNotifications();
-//        airlineWorker3.printNotifications();
-//
-//        passenger1.printNotifications();
-//        passenger2.printNotifications();
-//        passenger3.printNotifications();
-//        passenger4.printNotifications();
-//        passenger5.printNotifications();
-//        passenger6.printNotifications();
-//        passenger7.printNotifications();
-//        passenger8.printNotifications();
-//
-//
-//        // Search for a flight
-//        system.sortFlight(new SortByDepartureTime());
-//        system.sortFlight(new SortByFlightLength());
-//        system.sortFlight(new SortByPrice());
-//        system.searchFlight();
 
 
 
@@ -315,13 +235,13 @@ public class Main {
                         System.out.println("Airline has been added as a sub airline.");
                     } else {
                         System.out.println("Parent airline not found.");
-                        return;
+
                     }
                 }
             }
             case 2 -> {
                 System.out.println("Enter the flight number:");
-                int flightNumber =0 ;
+                int flightNumber;
                 try {
                     flightNumber = scanner.nextInt();
                 } catch (Exception e) {
@@ -337,7 +257,7 @@ public class Main {
                     return;
                 }
                 System.out.println("Enter the departure Date and Time in the format yyyy-MM-dd HH:mm:");
-                LocalDateTime departureDateTime = null;
+                LocalDateTime departureDateTime;
                 try {
                     String inputDateTime = scanner.nextLine(); // Read the entire line
                     departureDateTime = LocalDateTime.parse(inputDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -346,7 +266,7 @@ public class Main {
                     return;
                 }
                 System.out.println("Enter the arrival Date and Time in the format yyyy-MM-dd HH:mm:");
-                LocalDateTime arrivalDateTime = null;
+                LocalDateTime arrivalDateTime;
                 try {
                     String inputDateTime = scanner.nextLine(); // Read the entire line
                     arrivalDateTime = LocalDateTime.parse(inputDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));                } catch (Exception e) {
@@ -385,9 +305,14 @@ public class Main {
                 String workerName = scanner.nextLine();
                 System.out.println("Enter the ID number of the airline worker:");
                 int id = scanner.nextInt();
-                System.out.println("Enter the airline ID:");
-                int airlineID = scanner.nextInt();
-                system.createAirlineWorker(workerName, id, null);
+                System.out.println("Enter the airline name:");
+                String airlineName = scanner.nextLine();
+                Airline airline = system.getAirline(airlineName);
+                if(airline == null){
+                    System.out.println("Airline not found.");
+                    return;
+                }
+                system.createAirlineWorker(workerName, id, airline);
                 System.out.println("Airline worker has been added. do you want to watch a flight? (y/n)");
                 String watchFlight = scanner.nextLine();
                 if (watchFlight.equals("y")) {
@@ -433,7 +358,7 @@ public class Main {
                     return;
                 }
                 System.out.println("Enter the new departure Date and Time in the format yyyy-MM-dd HH:mm:");
-                LocalDateTime newDepartureDateTime = null;
+                LocalDateTime newDepartureDateTime ;
                 try {
                     String inputDateTime = scanner.nextLine(); // Read the entire line
                     newDepartureDateTime = LocalDateTime.parse(inputDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -442,7 +367,7 @@ public class Main {
                     return;
                 }
                 System.out.println("Enter the new arrival Date and Time in the format yyyy-MM-dd HH:mm:");
-                LocalDateTime newArrivalDateTime = null;
+                LocalDateTime newArrivalDateTime;
                 try {
                     String inputDateTime = scanner.nextLine(); // Read the entire line
                     newArrivalDateTime = LocalDateTime.parse(inputDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -563,9 +488,11 @@ public class Main {
 
                 }
             }
-
+            case 5 -> {
+                system.printNotifications();
+            }
+            case 0 -> System.out.println("Returning to the main menu...");
+            default -> System.out.println("Invalid choice.");
         }
-
-
     }
 }
