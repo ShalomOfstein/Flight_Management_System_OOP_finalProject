@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class Airline implements AirlineInterface, Subject {
     private final String name; // the name of the airline
-    private final ArrayList<Flight> flights; // the flights of the airline
-    private final ArrayList<Airline> subAirlines; // the subAirlines of the airline
+    private final ArrayList<AirlineInterface> flights; // the flights of the airline
+    private final ArrayList<AirlineInterface> subAirlines; // the subAirlines of the airline
     private final ArrayList<AirlineWorker> airlineWorkers; // the airline workers of the airline
 
 
@@ -106,11 +106,11 @@ public class Airline implements AirlineInterface, Subject {
     public int NumberOfFlights() {
         int numOfSubFlights = 0;
         // loop through the subAirlines and get the number of flights from each one.
-        for(Airline airline : subAirlines) {
+        for(AirlineInterface airline : subAirlines) {
             numOfSubFlights += airline.NumberOfFlights();
         }
         // loop through the flights and get the number of flights
-        for(Flight flight : flights) {
+        for(AirlineInterface flight : flights) {
             numOfSubFlights += flight.NumberOfFlights();
         }
         return numOfSubFlights;
@@ -120,12 +120,12 @@ public class Airline implements AirlineInterface, Subject {
     public int NumberOfPassengers() {
         int numOfSubPassengers=0;
         // loop through the subAirlines and get the number of passengers from each one
-        for(Airline airline : subAirlines) {
+        for(AirlineInterface airline : subAirlines) {
             numOfSubPassengers += airline.NumberOfPassengers();
         }
         int numOfPassengers = 0;
         // loop through the flights and get the number of passengers
-        for(Flight flight : flights) {
+        for(AirlineInterface flight : flights) {
             numOfPassengers += flight.NumberOfPassengers();
         }
         return numOfPassengers + numOfSubPassengers;
@@ -135,12 +135,12 @@ public class Airline implements AirlineInterface, Subject {
     public int ProfitsFromTickets() {
         int profitsFromSubAirlines = 0;
         // loop through the subAirlines and get the profits from tickets from each one.
-        for(Airline airline : subAirlines) {
+        for(AirlineInterface airline : subAirlines) {
             profitsFromSubAirlines += airline.ProfitsFromTickets();
         }
         int profitsFromFlights = 0;
         // loop through the flights and get the profits from tickets
-        for(Flight flight : flights) {
+        for(AirlineInterface flight : flights) {
             profitsFromFlights += flight.ProfitsFromTickets();
         }
         return profitsFromFlights + profitsFromSubAirlines;
@@ -159,34 +159,45 @@ public class Airline implements AirlineInterface, Subject {
      */
     @Override
     public void registerObserver(Observer observer) {
-        for(Flight flight : flights) {
-            flight.registerObserver(observer);
+        for (AirlineInterface airline : flights) {
+            if (airline instanceof Flight flight) {
+                flight.registerObserver(observer);
+            }
         }
-        for(Airline subAirline : subAirlines) {
-            subAirline.registerObserver(observer);
+        for(AirlineInterface subAirline : subAirlines) {
+            if (subAirline instanceof Airline airline) {
+                airline.registerObserver(observer);
+            }
         }
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        for(Flight flight : flights) {
-            flight.removeObserver(observer);
+        for(AirlineInterface flight : flights) {
+            if(flight instanceof Flight flight1) {
+                flight1.removeObserver(observer);
+            }
         }
-        for(Airline subAirline : subAirlines) {
-            subAirline.removeObserver(observer);
+        for(AirlineInterface subAirline : subAirlines) {
+            if(subAirline instanceof Airline airline) {
+                airline.removeObserver(observer);
+            }
         }
 
     }
 
     @Override
     public void notifyObservers(String message) {
-        for(Flight flight : flights) {
-            flight.notifyObservers(message);
+        for(AirlineInterface flight : flights) {
+            if(flight instanceof Flight flight1) {
+                flight1.notifyObservers(message);
+            }
         }
-        for(Airline subAirline : subAirlines) {
-            subAirline.notifyObservers(message);
+        for(AirlineInterface subAirline : subAirlines) {
+            if(subAirline instanceof Airline airline) {
+                airline.notifyObservers(message);
+            }
         }
     }
-
 
 }

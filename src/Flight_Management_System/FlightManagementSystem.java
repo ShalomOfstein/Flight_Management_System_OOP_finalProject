@@ -23,6 +23,7 @@ import java.util.Scanner;
  */
 
 public class FlightManagementSystem {
+
     private final ArrayList<Airline> airlines;
     private final ArrayList<Flight> flights;
     private final ArrayList<Passenger> passengers;
