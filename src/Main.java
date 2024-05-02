@@ -83,7 +83,7 @@ public class Main {
                 
                 """);
         }
-        int mainMenu = 1;
+        int mainMenu = -1;
         while (mainMenu != 0) {
             System.out.println("""
                     Main Menu:
@@ -95,71 +95,85 @@ public class Main {
                         0. Exit
                         Please enter your choice:
                         """);
-            mainMenu = scanner.nextInt();
-            switch (mainMenu) {
-                case 1 ->{
-                    System.out.println("""
-                            Add Menu:
-                                1. Add an airline
-                                2. Add a flight
-                                3. Add a passenger
-                                4. Add an airline worker
-                                0. Back to main menu
-                                Please enter your choice:
-                                """);
-                    int addMenu = scanner.nextInt();
-                    createMenu(addMenu, system);
+            try {
 
-                }
-                case 2 ->{
-                    System.out.println("""
-                            Change Menu:
-                                1. Change the ticket price of a flight
-                                2. Change the flight times of a flight
-                                3. Cancel a flight
-                                4. Remove a passenger from a flight
-                                0. Back to main menu
-                                Please enter your choice:
-                                """);
-                    int changeMenu = scanner.nextInt();
-                    changeMenu(changeMenu, system);
-                }
-                case 3 -> {
-                    system.searchFlight();
-                }
-                case 4 -> {
-                    System.out.println("""
-                            Please select a strategy to sort the flights:
-                            1. Sort by Departure Time
-                            2. Sort by Flight Length
-                            3. Sort by Price
-                            """);
-                    int choice = scanner.nextInt();
-                    switch (choice) {
-                        case 1 -> system.sortFlight(new SortByDepartureTime());
-                        case 2 -> system.sortFlight(new SortByFlightLength());
-                        case 3 -> system.sortFlight(new SortByPrice());
-                        default -> System.out.println("Invalid choice.");
+                mainMenu = scanner.nextInt();
+
+                switch (mainMenu) {
+                    case 1 -> {
+                        System.out.println("""
+                                Add Menu:
+                                    1. Add an airline
+                                    2. Add a flight
+                                    3. Add a passenger
+                                    4. Add an airline worker
+                                    0. Back to main menu
+                                    Please enter your choice:
+                                    """);
+                        int addMenu = -1;
+                        try {
+                            addMenu = scanner.nextInt();
+                            createMenu(addMenu, system);
+                        } catch (Exception e) {
+                            System.out.println("Invalid choice. please enter a number.");
+                            scanner.nextLine();
+                            continue;
+                        }
+
+
                     }
-                }
-                case 5 -> {
-                    System.out.println("""
-                            Printing info menu:
-                            1. Print profits from airline\\flight
-                            2. Print number of flights in airline
-                            3. Print number of passengers in a flight or an airline
-                            4. Print all the notifications a person has received
-                            5. Print all the notifications everyone has received
-                            0. Back to main menu
-                            Please enter your choice:""");
-                    int infoChoice = scanner.nextInt();
-                    printInfo(infoChoice, system);
-                }
+                    case 2 -> {
+                        System.out.println("""
+                                Change Menu:
+                                    1. Change the ticket price of a flight
+                                    2. Change the flight times of a flight
+                                    3. Cancel a flight
+                                    4. Remove a passenger from a flight
+                                    0. Back to main menu
+                                    Please enter your choice:
+                                    """);
+                        int changeMenu = scanner.nextInt();
+                        changeMenu(changeMenu, system);
+                    }
+                    case 3 -> {
+                        system.searchFlight();
+                    }
+                    case 4 -> {
+                        System.out.println("""
+                                Please select a strategy to sort the flights:
+                                1. Sort by Departure Time
+                                2. Sort by Flight Length
+                                3. Sort by Price
+                                """);
+                        int choice = scanner.nextInt();
+                        switch (choice) {
+                            case 1 -> system.sortFlight(new SortByDepartureTime());
+                            case 2 -> system.sortFlight(new SortByFlightLength());
+                            case 3 -> system.sortFlight(new SortByPrice());
+                            default -> System.out.println("Invalid choice.");
+                        }
+                    }
+                    case 5 -> {
+                        System.out.println("""
+                                Printing info menu:
+                                1. Print profits from airline\\flight
+                                2. Print number of flights in airline
+                                3. Print number of passengers in a flight or an airline
+                                4. Print all the notifications a person has received
+                                5. Print all the notifications everyone has received
+                                0. Back to main menu
+                                Please enter your choice:""");
+                        int infoChoice = scanner.nextInt();
+                        printInfo(infoChoice, system);
+                    }
 
-                case 0 -> System.out.println("Exiting the system...");
-                default -> System.out.println("Invalid choice.");
+                    case 0 -> System.out.println("Exiting the system...");
+                    default -> System.out.println("Invalid choice.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid choice. please enter a number.");
+                scanner.nextLine();
             }
-
 
         }
 

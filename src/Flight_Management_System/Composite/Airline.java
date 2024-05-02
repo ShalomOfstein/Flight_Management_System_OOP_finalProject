@@ -1,6 +1,7 @@
 package Flight_Management_System.Composite;
 
 import Flight_Management_System.Observer.AirlineWorker;
+import Flight_Management_System.Observer.Notification;
 import Flight_Management_System.Observer.Observer;
 import Flight_Management_System.Observer.Subject;
 
@@ -20,6 +21,8 @@ public class Airline implements AirlineInterface, Subject {
     private final ArrayList<AirlineInterface> subAirlines; // the subAirlines of the airline
     private final ArrayList<AirlineWorker> airlineWorkers; // the airline workers of the airline
 
+    private final ArrayList<Observer> observers; // the observers of the airline
+
 
 
     /**
@@ -32,6 +35,7 @@ public class Airline implements AirlineInterface, Subject {
         this.flights = new ArrayList<>();
         this.subAirlines = new ArrayList<>();
         this.airlineWorkers = new ArrayList<>();
+        this.observers = new ArrayList<>();
     }
 
     /**
@@ -159,44 +163,21 @@ public class Airline implements AirlineInterface, Subject {
      */
     @Override
     public void registerObserver(Observer observer) {
-        for (AirlineInterface airline : flights) {
-            if (airline instanceof Flight flight) {
-                flight.registerObserver(observer);
-            }
-        }
-        for(AirlineInterface subAirline : subAirlines) {
-            if (subAirline instanceof Airline airline) {
-                airline.registerObserver(observer);
-            }
+        if (!observers.contains(observer)) {
+            observers.add(observer);
         }
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        for(AirlineInterface flight : flights) {
-            if(flight instanceof Flight flight1) {
-                flight1.removeObserver(observer);
-            }
-        }
-        for(AirlineInterface subAirline : subAirlines) {
-            if(subAirline instanceof Airline airline) {
-                airline.removeObserver(observer);
-            }
-        }
-
+        observers.remove(observer);
     }
 
     @Override
     public void notifyObservers(String message) {
-        for(AirlineInterface flight : flights) {
-            if(flight instanceof Flight flight1) {
-                flight1.notifyObservers(message);
-            }
-        }
-        for(AirlineInterface subAirline : subAirlines) {
-            if(subAirline instanceof Airline airline) {
-                airline.notifyObservers(message);
-            }
+        for(Observer observer : observers) {
+            Notification notification = new Notification(observer, this, message);
+            observer.update(notification);
         }
     }
 
