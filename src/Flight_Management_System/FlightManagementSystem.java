@@ -24,6 +24,8 @@ import java.util.Scanner;
 
 public class FlightManagementSystem {
 
+    private static FlightManagementSystem instance = null;
+
     private final ArrayList<Airline> airlines;
     private final ArrayList<Flight> flights;
     private final ArrayList<Passenger> passengers;
@@ -35,11 +37,23 @@ public class FlightManagementSystem {
      * It will initialize the airlines, flights, and passengers ArrayLists.
      */
 
-    public FlightManagementSystem() {
+    private FlightManagementSystem() {
         airlines = new ArrayList<Airline>();
         flights = new ArrayList<Flight>();
         passengers = new ArrayList<Passenger>();
         airlineWorkers = new ArrayList<AirlineWorker>();
+    }
+
+    /**
+     * This method will return the instance of the FlightManagementSystem class.
+     * If the instance is null, it will create a new instance.
+     * @return Flight_Management_System.FlightManagementSystem
+     */
+    public static FlightManagementSystem getInstance() {
+        if(instance == null) {
+            instance = new FlightManagementSystem();
+        }
+        return instance;
     }
 
     /**

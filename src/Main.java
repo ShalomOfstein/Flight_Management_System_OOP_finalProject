@@ -34,7 +34,7 @@ public class Main {
                 The system is designed to manage airlines, flights, passengers, and airline workers.
                 Creating the system...
                 """);
-        FlightManagementSystem system = new FlightManagementSystem();
+        FlightManagementSystem system = FlightManagementSystem.getInstance();
         System.out.println("The system has been created.\n");
         System.out.println("""
                 Do you want to load the system with automatic data? (you will still be able to add you own data after)
@@ -42,7 +42,13 @@ public class Main {
                 2. No
                 Please enter your choice:""");
         Scanner scanner = new Scanner(System.in);
-        int automaticData = scanner.nextInt();
+        int automaticData;
+        try{
+            automaticData = scanner.nextInt();
+        }catch (Exception e){
+            System.out.println("Invalid choice. please enter 1 or 2. Exiting the system...");
+            return;
+        }
         if(automaticData == 1) {
             System.out.println("Loading the system with automatic data...");
             loadAutomaticData(system);
@@ -52,7 +58,7 @@ public class Main {
                                       /       |     \\                |
                               Airline2    Airline3   flight5         flight6
                                  /            \\
-                                Airline4     light4
+                                Airline4     flight4
                                    |
                        flight1 , flight2 , flight3
                     
@@ -63,10 +69,18 @@ public class Main {
                 Passenger Eve is added to flight5
                 Passenger Frank is added to flight6
                 Passenger Grace is added to flight1
-                Passenger Hank is watching flight1
+                
+                Eve, Frank, and Hank are watching flight1.
+                Charlie, David, and Grace are watching flight2.
+                Alice and Bob are watching flight3.
                 Airline Worker Ivan is watching flight1
                 Airline Worker John is watching flight2
                 Airline Worker Kate is watching flight3
+                
+                Ticket price for flight1 has been changed from 100 to 150
+                Flight times for flight2 have been changed from 2025-06-13 06:00 to 2025-06-13 07:00
+                Flight3 has been canceled.
+                
                 """);
         }
         int mainMenu = 1;
@@ -206,7 +220,16 @@ public class Main {
         system.addPassengerToFlight(passenger6, flight6);
         system.addPassengerToFlight(passenger7, flight1);
 
+        passenger5.watchFlight(flight1);
+        passenger6.watchFlight(flight1);
         passenger8.watchFlight(flight1);
+        passenger3.watchFlight(flight2);
+        passenger4.watchFlight(flight2);
+        passenger7.watchFlight(flight2);
+        passenger1.watchFlight(flight3);
+        passenger2.watchFlight(flight3);
+
+
 
         AirlineWorker airlineWorker1 = system.createAirlineWorker("Ivan", 1, airline1);
         AirlineWorker airlineWorker2 = system.createAirlineWorker("John", 2, airline2);
@@ -215,6 +238,16 @@ public class Main {
         airlineWorker1.watchFlight(flight1);
         airlineWorker2.watchFlight(flight2);
         airlineWorker3.watchFlight(flight3);
+
+        flight1.changeTicketPrice(150);
+        LocalDateTime newDepartureTime2 = LocalDateTime.of(2025, 6, 13, 7, 0);
+        LocalDateTime newArrivalTime2 = LocalDateTime.of(2025, 6, 13, 8, 0);
+        flight2.changeFlightTimes(newDepartureTime2, newArrivalTime2);
+        flight3.cancelFlight();
+
+
+
+
 
     }
 
@@ -406,19 +439,13 @@ public class Main {
                     return;
                 }
                 system.removePassengerFromFlight(passenger, flight);
+                System.out.println("Passenger "+passenger.getName() +" has been removed from flight "+ flight.getFlightNumber()+".");
             }
         }
 
     }
 
-    /**
-     * "Printing info menu:\n" +
-     *                             "1. Print profits from airline\\flight \n" +
-     *                             "2. Print number of flights in airline\n" +
-     *                             "3. Print number of passengers in a flight or an airline\n" +
-     *                             "4. Print all the notifications a person has received \n" +
-     *                             "Please enter your choice:");
-     */
+
     public static void printInfo(int choice, FlightManagementSystem system){
         Scanner scanner = new Scanner(System.in);
         switch (choice){
